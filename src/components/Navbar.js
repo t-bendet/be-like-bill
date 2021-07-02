@@ -1,10 +1,10 @@
 import React from "react";
 import { Media } from "../utils/Media";
 import { Container, Icon, Image, Menu, Sidebar } from "semantic-ui-react";
+import GoogleAuth from "../components/GoogleAuth";
 
 const NavBarMobile = (props) => {
-  const { children, leftItems, onPusherClick, onToggle, rightItems, visible } =
-    props;
+  const { children, onPusherClick, onToggle, visible } = props;
 
   return (
     <Sidebar.Pushable>
@@ -13,7 +13,7 @@ const NavBarMobile = (props) => {
         animation="overlay"
         icon="labeled"
         inverted
-        items={leftItems}
+        items={[{ as: "a", content: "Homsssse", key: "home" }]}
         vertical
         visible={visible}
       />
@@ -30,9 +30,9 @@ const NavBarMobile = (props) => {
             <Icon name="sidebar" />
           </Menu.Item>
           <Menu.Menu position="right">
-            {rightItems.map((item) => (
-              <Menu.Item {...item} />
-            ))}
+            <Menu.Item>
+              <GoogleAuth />
+            </Menu.Item>
           </Menu.Menu>
         </Menu>
         {children}
@@ -42,22 +42,16 @@ const NavBarMobile = (props) => {
 };
 
 const NavBarDesktop = (props) => {
-  const { leftItems, rightItems } = props;
-
   return (
     <Menu fixed="top" inverted>
       <Menu.Item>
         <Image size="mini" src="https://react.semantic-ui.com/logo.png" />
       </Menu.Item>
-
-      {leftItems.map((item) => (
-        <Menu.Item {...item} />
-      ))}
-
+      <Menu.Item>Home</Menu.Item>
       <Menu.Menu position="right">
-        {rightItems.map((item) => (
-          <Menu.Item {...item} />
-        ))}
+        <Menu.Item>
+          <GoogleAuth />
+        </Menu.Item>
       </Menu.Menu>
     </Menu>
   );
@@ -81,17 +75,15 @@ class Navbar extends React.Component {
   handleToggle = () => this.setState({ visible: !this.state.visible });
 
   render() {
-    const { children, leftItems, rightItems } = this.props;
+    const { children } = this.props;
     const { visible } = this.state;
 
     return (
       <div>
         <Media at="sm">
           <NavBarMobile
-            leftItems={leftItems}
             onPusherClick={this.handlePusher}
             onToggle={this.handleToggle}
-            rightItems={rightItems}
             visible={visible}
           >
             <NavBarChildren>{children}</NavBarChildren>
@@ -99,7 +91,7 @@ class Navbar extends React.Component {
         </Media>
 
         <Media greaterThan="sm">
-          <NavBarDesktop leftItems={leftItems} rightItems={rightItems} />
+          <NavBarDesktop />
           <NavBarChildren>{children}</NavBarChildren>
         </Media>
       </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Icon } from "semantic-ui-react";
 
 class GoogleAuth extends React.Component {
   state = { isSignedIn: null };
@@ -19,17 +20,35 @@ class GoogleAuth extends React.Component {
   onAuthChange = () => {
     this.setState({ isSignedIn: this.auth.isSignedIn.get() });
   };
+  onSignIn = () => {
+    this.auth.signIn();
+  };
+  onSignOut = () => {
+    this.auth.signOut();
+  };
   renderAuthButton() {
     if (this.state.isSignedIn === null) {
-      return <div>Show spinner</div>;
+      return (
+        <Button primary loading>
+          Loading
+        </Button>
+      );
     } else if (this.state.isSignedIn) {
-      return <div>Signed In</div>;
+      return (
+        <Button color="google plus" onClick={this.onSignOut}>
+          <Icon name="google" red /> Sign Out
+        </Button>
+      );
     } else {
-      return <div>Not Signed In</div>;
+      return (
+        <Button color="green" onClick={this.onSignIn}>
+          <Icon name="google" red /> Sign In
+        </Button>
+      );
     }
   }
   render() {
-    return <div>{this.renderAuthButton()}</div>;
+    return <>{this.renderAuthButton()}</>;
   }
 }
 
