@@ -11,10 +11,14 @@ class GoogleAuth extends React.Component {
       });
       // intializing the auth instance object
       this.auth = await window.gapi.auth2.getAuthInstance();
-      this.setState({ isSignedIn: this.auth.isSignedIn.get() });
+      this.onAuthChange();
+      this.auth.isSignedIn.listen(this.onAuthChange);
       // TODO problam with rerendering after initalizing
     });
   }
+  onAuthChange = () => {
+    this.setState({ isSignedIn: this.auth.isSignedIn.get() });
+  };
   renderAuthButton() {
     if (this.state.isSignedIn === null) {
       return <div>Show spinner</div>;
