@@ -22,7 +22,7 @@ class Navbar extends React.Component {
 
   handleToggle = () => this.setState({ visible: !this.state.visible });
   renderNavIcon = () => {
-    if (this.props.user) {
+    if (this.props.user && this.props.user.picUrl) {
       return this.props.user.picUrl;
     } else {
       return "https://react.semantic-ui.com/logo.png";

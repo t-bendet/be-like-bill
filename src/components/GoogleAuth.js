@@ -9,7 +9,7 @@ class GoogleAuth extends React.Component {
     window.gapi.load("client:auth2", async () => {
       await window.gapi.client.init({
         clientId: process.env.REACT_APP_CLIENT_ID,
-        scope: "email",
+        scope: "https://www.googleapis.com/auth/userinfo.profile"
       });
       // initalizing the auth instance object
       this.auth = await window.gapi.auth2.getAuthInstance();
@@ -26,7 +26,7 @@ class GoogleAuth extends React.Component {
         qS: lastName,
         Nt: email,
         CJ: picUrl,
-      } = this.auth.currentUser.ee.dt;
+      } = this.auth.currentUser.get().getBasicProfile();
       this.props.signIn({ id, fullName, firstName, lastName, email, picUrl });
     } else {
       this.props.signOut();
@@ -47,14 +47,14 @@ class GoogleAuth extends React.Component {
       );
     } else if (this.props.isSignedIn) {
       return (
-        <Button color="google plus" onClick={this.onSignOut}>
-          <Icon name="google" red /> Sign Out
+        <Button color="red" onClick={this.onSignOut}>
+          <Icon name="google" /> Sign Out
         </Button>
       );
     } else {
       return (
         <Button color="green" onClick={this.onSignIn}>
-          <Icon name="google" red /> Sign In With Google
+          <Icon name="google" /> Sign In With Google
         </Button>
       );
     }
