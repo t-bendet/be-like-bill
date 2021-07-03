@@ -11,11 +11,10 @@ class GoogleAuth extends React.Component {
         clientId: process.env.REACT_APP_CLIENT_ID,
         scope: "email",
       });
-      // intializing the auth instance object
+      // initalizing the auth instance object
       this.auth = await window.gapi.auth2.getAuthInstance();
       this.onAuthChange(this.auth.isSignedIn.get());
       this.auth.isSignedIn.listen(this.onAuthChange);
-      // TODO problam with rerendering after initalizing
     });
   }
   onAuthChange = (isSignedIn) => {
