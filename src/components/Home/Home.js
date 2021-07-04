@@ -1,46 +1,59 @@
-import React,{useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Media } from "../../utils/Media";
-import { Container,Image,Button,Icon ,Segment} from "semantic-ui-react";
+import { Container, Image, Button, Segment } from "semantic-ui-react";
 import { connect } from "react-redux";
 
-  
+const Home = ({ user }) => {
+  const [meme, setMeme] = useState(
+    "https://belikebill.ga/billgen-API.php?default=1"
+  );
+  const userMeme = () => {
+    setMeme(
+      `https://belikebill.ga/billgen-API.php?default=1&name=${
+        user.fullName
+      }&sex=${new Date()}`
+    );
+  };
+  const nonUserMeme = () => {
+    setMeme(
+      `https://belikebill.ga/billgen-API.php?default=1&sex=${new Date()}`
+    );
+  };
 
-// TODO find a snarter way to rerender
-let counter = 0
-const Home = ({user}) => {
-  const [meme, setMeme] = useState("https://belikebill.ga/billgen-API.php?default=1")
-  const userMeme = ()=>{
-    counter += 1
-    setMeme(`https://belikebill.ga/billgen-API.php?default=1&name=${user.firstName}&sex=${counter}`)
-  }
-  const renderBtn = ()=>{
-    if (user){
+  const renderBtn = () => {
+    if (user) {
       return (
-        <Button color="pink" onClick={userMeme}>
-          <Icon name="google" /> get your own meme
-        </Button>
-      )
-    }else{
+        <Segment raised inverted>
+          <Button color="yellow" onClick={userMeme}>
+            {`hey ${
+              user.fullName || user.firstName || user.lastName || "john doe"
+            }! click here get your own meme`}
+          </Button>
+        </Segment>
+      );
+    } else {
       return (
-        <Button disabled color="green" >
-          <Segment/>
-          <Icon name="google" /> click on the sign in button on the upper right corner to get your own meme
-        </Button>
-      )
+        <Segment raised inverted>
+          <Button secondary onClick={nonUserMeme}>
+            click on the sign in button on the upper right corner to get your
+            own meme
+          </Button>
+        </Segment>
+      );
     }
-  }
+  };
   return (
     <div>
       <Media at="sm">
-        <Container >
-          <Image src={meme} size='big' />
+        <Container textAlign="center">
+          <Image src={meme} size="huge" centered />
           {renderBtn()}
         </Container>
       </Media>
 
       <Media greaterThan="sm">
-        <Container >
-          <Image src={meme} size='big'  />
+        <Container textAlign="center">
+          <Image src={meme} size="huge" centered />
           {renderBtn()}
         </Container>
       </Media>
@@ -53,5 +66,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(Home);
-
-

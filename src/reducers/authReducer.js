@@ -4,7 +4,7 @@ const INTIAL_STATE = {
   user: null,
 };
 
-export default (state = INTIAL_STATE, action) => {
+export default function authReducer(state = INTIAL_STATE, action) {
   switch (action.type) {
     case SIGN_IN:
       return { ...state, isSignedIn: true, user: action.payload };
@@ -13,4 +13,4 @@ export default (state = INTIAL_STATE, action) => {
     default:
       return state;
   }
-};
+}
